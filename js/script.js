@@ -7,6 +7,8 @@ init();
 animate();
 
 function init() {
+    const DEFAULTS = getSavedDefaults();
+
     //init scene
     container = document.getElementById('player');
     const CONTAINER_PADDING = 25;
@@ -15,8 +17,8 @@ function init() {
     const VIEW_ANGLE = 45;
     const ASPECT = WIDTH / HEIGHT;
     const NEAR = 0.1, FAR = 40000;
-    const CAM_POS = new THREE.Vector3(3200, 1700, 2400);
-    const CAM_TARGET = new THREE.Vector3(0, 0, 1000);
+    const CAM_POS = DEFAULTS.CAM_POS || new THREE.Vector3(3200, 1700, 2400);
+    const CAM_TARGET = DEFAULTS.CAM_TARGET || new THREE.Vector3(0, 0, 1000);
 
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
@@ -53,11 +55,11 @@ function init() {
 
     let floorTexture = new THREE.ImageUtils.loadTexture('/vendors/images/checkerboard.png');
     floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;
-    floorTexture.repeat.set(1, 1);
+    floorTexture.repeat.set(5, 5);
     let floorMaterial = new THREE.MeshBasicMaterial({ map: floorTexture, side: THREE.DoubleSide });
-    let floorGeometry = new THREE.PlaneGeometry(4000, 4000, 10, 10);
+    let floorGeometry = new THREE.PlaneGeometry(10000, 10000, 10, 10);
     let floor = new THREE.Mesh(floorGeometry, floorMaterial);
-    floor.position.z = -2;
+    floor.position.z = -5;
     // floor.rotation.x = Math.PI / 2;
     scene.add(floor);
 
@@ -79,4 +81,56 @@ function animate() {
 
 function render() {
     renderer.render(scene, camera);
+}
+
+function getSavedDefaults() {
+    const keys = ["CAM_POS", "CAM_TARGET"];
+    let defaults = {};
+
+    for (let def of keys) {
+        switch (def) {
+            case "CAM_POS":
+            case "CAM_TARGET":
+                let item = getLocalStorageItem(def);
+                
+                if (item)
+                    defaults[def] = new THREE.Vector3(item.x, item.y, item.z);
+
+                break;
+        }
+    }
+
+    return defaults;
+}
+
+function getLocalStorageItem(key) {
+    let item = localStorage.getItem(key);
+
+    if (item) {
+        try {
+            item = JSON.parse(item);
+        } catch (e) {
+            console.error("error during retrieving default value: " + key + " from localStorage. item is not a JSON");
+        }
+    } else {
+        console.error("error during retrieving default value: " + key + " from localStorage. no such key");
+    }
+
+    return item;
+}
+
+function setCurrentCamAsDefault() {
+    const position = camera.position;
+    const target = controls.target;
+    setDefaultCam(position, target);
+}
+
+function setDefaultCam(position, target) {
+    localStorage.setItem("CAM_POS", JSON.stringify(position));
+    localStorage.setItem("CAM_TARGET", JSON.stringify(target));
+}
+
+function deleteDefaultCam() {
+    localStorage.removeItem("CAM_POS");
+    localStorage.removeItem("CAM_TARGET");
 }
