@@ -1,14 +1,11 @@
 
 let container, scene, camera, renderer, controls, stats;
-
-let mesh;
+const DEFAULTS = getSavedDefaults();
 
 init();
 animate();
 
 function init() {
-    const DEFAULTS = getSavedDefaults();
-
     //init scene
     container = document.getElementById('player');
     const CONTAINER_PADDING = 25;
@@ -39,6 +36,7 @@ function init() {
     controls = new THREE.OrbitControls(camera, renderer.domElement);
     camera.lookAt(CAM_TARGET);
     controls.target.copy(CAM_TARGET);
+    setMinMaxDistance(controls, DEFAULTS);
     
     stats = new Stats();
     stats.dom.style.position = 'absolute';
@@ -60,7 +58,6 @@ function init() {
     let floorGeometry = new THREE.PlaneGeometry(10000, 10000, 10, 10);
     let floor = new THREE.Mesh(floorGeometry, floorMaterial);
     floor.position.z = -5;
-    // floor.rotation.x = Math.PI / 2;
     scene.add(floor);
 
     let skyBoxGeometry = new THREE.CubeGeometry(20000, 20000, 20000);
@@ -84,17 +81,28 @@ function render() {
 }
 
 function getSavedDefaults() {
-    const keys = ["CAM_POS", "CAM_TARGET"];
+    const keys = ["CAM_POS", "CAM_TARGET", "CAM_MIN_DIST", "CAM_MAX_DIST"];
     let defaults = {};
 
-    for (let def of keys) {
-        switch (def) {
+    for (let key of keys) {
+        let item;
+
+        switch (key) {
             case "CAM_POS":
             case "CAM_TARGET":
-                let item = getLocalStorageItem(def);
+                item = getLocalStorageJson(key);
                 
                 if (item)
-                    defaults[def] = new THREE.Vector3(item.x, item.y, item.z);
+                    defaults[key] = new THREE.Vector3(item.x, item.y, item.z);
+
+                break;
+
+            case "CAM_MIN_DIST":
+            case "CAM_MAX_DIST":
+                item = localStorage.getItem(key);
+
+                if (item)
+                    defaults[key] = item;
 
                 break;
         }
@@ -103,7 +111,7 @@ function getSavedDefaults() {
     return defaults;
 }
 
-function getLocalStorageItem(key) {
+function getLocalStorageJson(key) {
     let item = localStorage.getItem(key);
 
     if (item) {
@@ -112,8 +120,6 @@ function getLocalStorageItem(key) {
         } catch (e) {
             console.error("error during retrieving default value: " + key + " from localStorage. item is not a JSON");
         }
-    } else {
-        console.error("error during retrieving default value: " + key + " from localStorage. no such key");
     }
 
     return item;
@@ -133,4 +139,53 @@ function setDefaultCam(position, target) {
 function deleteDefaultCam() {
     localStorage.removeItem("CAM_POS");
     localStorage.removeItem("CAM_TARGET");
+}
+
+function saveMinMaxCamDist() {
+    const minDistDom = document.querySelector("#dist-min");
+    const maxDistDom = document.querySelector("#dist-max");
+    let min = null;
+    let max = null;
+
+    if (minDistDom && maxDistDom) {
+        if (
+            !isNaN(minDistDom.value) && 
+            !isNaN(maxDistDom.value) &&
+            minDistDom.value.length > 0 &&
+            maxDistDom.value.length > 0
+        ) {
+            min = +minDistDom.value;
+            max = +maxDistDom.value;
+            localStorage.setItem("CAM_MIN_DIST", min);
+            localStorage.setItem("CAM_MAX_DIST", max);
+        } else {
+            alert('wrong distance values');
+        }
+    }
+
+    if (min !== null && max !== null) {
+        const values = {
+            CAM_MIN_DIST: min, 
+            CAM_MAX_DIST: max
+        }; 
+        setMinMaxDistance(controls, values);
+    }
+}
+
+function setMinMaxDistance(controls, values) {
+    if (
+        values.hasOwnProperty("CAM_MIN_DIST") && 
+        values.hasOwnProperty("CAM_MAX_DIST")
+    ) {
+        controls.minDistance = values.CAM_MIN_DIST;
+        controls.maxDistance = values.CAM_MAX_DIST;
+    }
+
+    const minDistDom = document.querySelector("#dist-min");
+    const maxDistDom = document.querySelector("#dist-max");
+    
+    if (minDistDom && maxDistDom) { 
+        minDistDom.value = values.CAM_MIN_DIST;
+        maxDistDom.value = values.CAM_MAX_DIST;
+    }
 }
