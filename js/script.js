@@ -37,6 +37,7 @@ function init() {
     camera.lookAt(CAM_TARGET);
     controls.target.copy(CAM_TARGET);
     setMinMaxDistance(controls, DEFAULTS);
+    setCamBounds(controls, DEFAULTS);
     
     stats = new Stats();
     stats.dom.style.position = 'absolute';
@@ -81,7 +82,13 @@ function render() {
 }
 
 function getSavedDefaults() {
-    const keys = ["CAM_POS", "CAM_TARGET", "CAM_MIN_DIST", "CAM_MAX_DIST"];
+    const keys = [
+        "CAM_POS", 
+        "CAM_TARGET", 
+        "CAM_MIN_DIST", 
+        "CAM_MAX_DIST", 
+        "CAM_BOUNDS"
+    ];
     let defaults = {};
 
     for (let key of keys) {
@@ -101,6 +108,14 @@ function getSavedDefaults() {
             case "CAM_MAX_DIST":
                 item = localStorage.getItem(key);
 
+                if (item)
+                    defaults[key] = item;
+
+                break;
+
+            case "CAM_BOUNDS":
+                item = getLocalStorageJson(key);
+                
                 if (item)
                     defaults[key] = item;
 
@@ -188,4 +203,105 @@ function setMinMaxDistance(controls, values) {
         minDistDom.value = values.CAM_MIN_DIST;
         maxDistDom.value = values.CAM_MAX_DIST;
     }
+}
+
+function saveCamBounds() {
+    const minDomX = document.querySelector("#camtar-x-min");
+    const maxDomX = document.querySelector("#camtar-x-max");
+    const minDomY = document.querySelector("#camtar-y-min");
+    const maxDomY = document.querySelector("#camtar-y-max");
+    const minDomZ = document.querySelector("#camtar-z-min");
+    const maxDomZ = document.querySelector("#camtar-z-max");
+    let boundsObject = null;
+
+    if (
+        minDomX && maxDomX && 
+        minDomY && maxDomY && 
+        minDomZ && maxDomZ &&
+        minDomX.value.length > 0 &&
+        maxDomX.value.length > 0 &&
+        minDomY.value.length > 0 &&
+        maxDomY.value.length > 0 &&
+        minDomZ.value.length > 0 &&
+        maxDomZ.value.length > 0
+    ) {
+        if (
+            !isNaN(minDomX.value) && 
+            !isNaN(maxDomX.value) &&
+            !isNaN(minDomY.value) && 
+            !isNaN(maxDomY.value) &&
+            !isNaN(minDomZ.value) && 
+            !isNaN(maxDomZ.value)
+        ) {
+            boundsObject = {
+                x: {min: +minDomX.value, max: +maxDomX.value},
+                y: {min: +minDomY.value, max: +maxDomY.value},
+                z: {min: +minDomZ.value, max: +maxDomZ.value}
+            }
+            localStorage.setItem("CAM_BOUNDS", JSON.stringify(boundsObject));
+        } else {
+            alert('wrong bounds values');
+        }
+    }
+
+    if (boundsObject !== null) {
+        let values = {};
+        values.CAM_BOUNDS = boundsObject; 
+        setCamBounds(controls, values);
+    }
+}
+
+function setCamBounds(controls, values) {
+    let old = scene.getObjectByName("CAM_BOUNDS");
+    if (old) scene.remove(old);
+    
+    if (values.hasOwnProperty("CAM_BOUNDS")) {
+        controls._checkBoundaries = true;
+        controls._panBoundaries = values.CAM_BOUNDS;
+
+        const minDomX = document.querySelector("#camtar-x-min");
+        const maxDomX = document.querySelector("#camtar-x-max");
+        const minDomY = document.querySelector("#camtar-y-min");
+        const maxDomY = document.querySelector("#camtar-y-max");
+        const minDomZ = document.querySelector("#camtar-z-min");
+        const maxDomZ = document.querySelector("#camtar-z-max");
+
+        if (minDomX && maxDomX && minDomY && maxDomY && minDomZ && maxDomZ) {
+            minDomX.value = values.CAM_BOUNDS.x.min;
+            maxDomX.value = values.CAM_BOUNDS.x.max;
+            minDomY.value = values.CAM_BOUNDS.y.min;
+            maxDomY.value = values.CAM_BOUNDS.y.max;
+            minDomZ.value = values.CAM_BOUNDS.z.min;
+            maxDomZ.value = values.CAM_BOUNDS.z.max;
+        }
+
+        let mat = new THREE.MeshBasicMaterial({
+            color: 0x0000ff,
+            transparent: true,
+            opacity: 0.1,
+            side: THREE.BackSide
+        });
+        let geo = new THREE.CubeGeometry(
+            values.CAM_BOUNDS.x.max - values.CAM_BOUNDS.x.min,
+            values.CAM_BOUNDS.y.max - values.CAM_BOUNDS.y.min,
+            values.CAM_BOUNDS.z.max - values.CAM_BOUNDS.z.min
+        );
+    
+        let mesh = new THREE.Mesh(geo, mat);
+        mesh.name = "CAM_BOUNDS";
+        mesh.position.x = (+values.CAM_BOUNDS.x.max + +values.CAM_BOUNDS.x.min) / 2;
+        mesh.position.y = (+values.CAM_BOUNDS.y.max + +values.CAM_BOUNDS.y.min) / 2;
+        mesh.position.z = (+values.CAM_BOUNDS.z.max + +values.CAM_BOUNDS.z.min) / 2;
+        scene.add(mesh);
+    }
+}
+
+function deleteCamBounds() {
+    localStorage.removeItem("CAM_BOUNDS");
+    setCamBounds(controls, {});
+}
+
+function toggleCamBoundsVisibility() {
+    let cube = scene.getObjectByName("CAM_BOUNDS");
+    if (cube) cube.visible = !cube.visible;
 }

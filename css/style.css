@@ -9,12 +9,12 @@ body {
 }
 
 .menu {
-    height: 200px;
+    height: 250px;
 }
 
 #player {
     position: relative;
-    height: calc(100vh - 200px);
+    height: calc(100vh - 250px);
     width: 100%;
     text-align: center;
 }
