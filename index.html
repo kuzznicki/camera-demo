@@ -51,6 +51,63 @@
           onclick="saveMinMaxCamDist()" 
           value="Save distance">
       </div>
+
+      <div class="col-5">
+        Camera target boundaries
+        <div class="input-group input-group-sm mb-1">
+          <div class="input-group-prepend">
+            <span class="input-group-text">x</span>
+            <span class="input-group-text">min</span>
+          </div>
+          <input type="text" id="camtar-x-min" class="form-control">
+          <input type="text" id="camtar-x-max" class="form-control">
+          <div class="input-group-append">
+            <span class="input-group-text">max</span>
+          </div>
+        </div>
+
+        <div class="input-group input-group-sm mb-1">
+          <div class="input-group-prepend">
+            <span class="input-group-text">y</span>
+            <span class="input-group-text">min</span>
+          </div>
+          <input type="text" id="camtar-y-min" class="form-control">
+          <input type="text" id="camtar-y-max" class="form-control">
+          <div class="input-group-append">
+            <span class="input-group-text">max</span>
+          </div>
+        </div>
+
+        <div class="input-group input-group-sm mb-1">
+          <div class="input-group-prepend">
+            <span class="input-group-text">z</span>
+            <span class="input-group-text">min</span>
+          </div>
+          <input type="text" id="camtar-z-min" class="form-control">
+          <input type="text" id="camtar-z-max" class="form-control">
+          <div class="input-group-append">
+            <span class="input-group-text">max</span>
+          </div>
+        </div>
+
+        <input 
+          type="button" 
+          class="btn btn-primary btn-sm" 
+          onclick="saveCamBounds()" 
+          value="Save boundaries">
+
+        <input 
+          type="button" 
+          class="btn btn-warning btn-sm mb-1" 
+          onclick="deleteCamBounds()" 
+          value="Delete boundaries">
+
+        <input 
+          type="button" 
+          class="btn btn-primary btn-sm" 
+          onclick="toggleCamBoundsVisibility()" 
+          value="Show / Hide">
+      </div>
     </div>
   </div>
 
@@ -61,7 +118,7 @@
   <script src="/vendors/js/bootstrap.min.js"></script>
   <script src="/vendors/js/three.js"></script>
   <script src="/vendors/js/Stats.js"></script>
-  <script src="/vendors/js/OrbitControls.js"></script>
+  <script src="/vendors/js/CustomOrbitControls.js"></script>
   <script src="/vendors/js/THREEx.WindowResize.js"></script>
   <script src="/js/bookcase.js"></script>
   <script src="/js/script.js"></script>
