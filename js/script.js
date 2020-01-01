@@ -305,3 +305,11 @@ function toggleCamBoundsVisibility() {
     let cube = scene.getObjectByName("CAM_BOUNDS");
     if (cube) cube.visible = !cube.visible;
 }
+
+function enablePan() {
+    controls.enablePan = true;
+}
+
+function disablePan() {
+    controls.enablePan = false;
+}

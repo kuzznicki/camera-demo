@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="icon" type="image/png" href="/vendors/images/favicon-96x96.png">
-  <link rel="stylesheet" href="vendors/css/bootstrap.css">
+  <link rel="stylesheet" href="/vendors/css/bootstrap.css">
   <link rel="stylesheet" href="/css/style.css">
   <title>Camera Demo</title>
 </head>
@@ -15,20 +15,53 @@
   <div class="menu container">
     <h3>Camera demo</h3>
     <div class="row">
+
+      <!-- column 1 -->
       <div class="col">
-        Current camera <br>
-        <input 
-          type="button" 
-          class="btn btn-primary btn-sm mb-1" 
-          onclick="setCurrentCamAsDefault()" 
-          value="Set as default">
-        <input 
-          type="button" 
-          class="btn btn-warning btn-sm mb-1" 
-          onclick="deleteDefaultCam()" 
-          value="Delete default">
+        <div class="row">
+          <div class="col">
+            Current camera
+            <br>
+            <input 
+              type="button" 
+              class="btn btn-primary btn-sm mb-1" 
+              onclick="setCurrentCamAsDefault()" 
+              value="Set as default">
+            <input 
+              type="button" 
+              class="btn btn-warning btn-sm mb-1" 
+              onclick="deleteDefaultCam()" 
+              value="Delete default">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            Camera pan
+            <br>
+            <div class="form-check form-check-inline">
+              <input 
+                class="form-check-input" 
+                type="radio" 
+                name="panEnabled" 
+                onclick="enablePan()"
+                checked>
+              <label class="form-check-label">on</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input 
+                class="form-check-input" 
+                type="radio" 
+                name="panEnabled" 
+                onclick="disablePan()">
+              <label class="form-check-label">off</label>
+            </div>
+          </div>
+        </div>
+        
       </div>
 
+      <!-- column 1 -->
       <div class="col">
         Camera distance
         <div class="input-group input-group-sm mb-1">
@@ -52,6 +85,7 @@
           value="Save distance">
       </div>
 
+      <!-- column 3 -->
       <div class="col-5">
         Camera target boundaries
         <div class="input-group input-group-sm mb-1">
