@@ -10,12 +10,50 @@
   <link rel="stylesheet" href="/css/style.css">
   <title>Camera Demo</title>
 </head>
+
 <body>
-    <div class="menu">
-      <h1>Camera demo</h1>
-      <input type="button" onclick="setCurrentCamAsDefault()" value="Set as default cam">
-      <input type="button" onclick="deleteDefaultCam()" value="Delete default cam">
+  <div class="menu container">
+    <h3>Camera demo</h3>
+    <div class="row">
+      <div class="col">
+        Current camera <br>
+        <input 
+          type="button" 
+          class="btn btn-primary btn-sm mb-1" 
+          onclick="setCurrentCamAsDefault()" 
+          value="Set as default">
+        <input 
+          type="button" 
+          class="btn btn-warning btn-sm mb-1" 
+          onclick="deleteDefaultCam()" 
+          value="Delete default">
+      </div>
+
+      <div class="col">
+        Camera distance
+        <div class="input-group input-group-sm mb-1">
+          <div class="input-group-prepend">
+            <span class="input-group-text">min</span>
+          </div>
+          <input type="text" id="dist-min" class="form-control">
+        </div>
+
+        <div class="input-group input-group-sm mb-1">
+          <div class="input-group-prepend">
+            <span class="input-group-text">max</span>
+          </div>
+          <input type="text" id="dist-max" class="form-control">
+        </div>
+
+        <input 
+          type="button" 
+          class="btn btn-primary btn-sm" 
+          onclick="saveMinMaxCamDist()" 
+          value="Save distance">
+      </div>
+    </div>
   </div>
+
   <div id="player"></div>
 
   <script src="/vendors/js/jquery-3.4.1.slim.min.js"></script>
