@@ -6,12 +6,13 @@ class Bookcase {
         this.z = z;
         this.rows = rows;
         this.cols = cols;
+        this.camPositions = []; //assigned in geometry creation
         this.geometry = this.createGeometry();
     }
 
     createGeometry() {
         let {x, y, z, rows, cols} = this;
-        let t = 18, mainColor = 0x007bff, accentColor = 0xffc107;
+        let t = 18, camPositions = [], mainColor = 0x007bff, accentColor = 0xffc107;
         let geometry;
 
         let group = new THREE.Group();
@@ -46,12 +47,13 @@ class Bookcase {
 
         let rowGeoY = (y - (2 * t) - (cols - 1) * t) / cols; 
         geometry = new THREE.CubeGeometry(x, rowGeoY, 18);
-        let rowMaterial = new THREE.MeshLambertMaterial({color: accentColor});
+        let rowMaterial = new THREE.MeshLambertMaterial({color: mainColor});
         let rowMesh = new THREE.Mesh(geometry, rowMaterial);
 
         for (let i = 0; i < cols; i++) {
             let col = colMesh.clone();
             col.position.y += (i + 1) * ((y - t) / cols);
+            camPositions[i] = [];
 
             if (i + 1 !== cols)
                 group.add(col);
@@ -59,13 +61,18 @@ class Bookcase {
             rowMesh.position.copy(col.position);
             rowMesh.position.y -= rowGeoY / 2 + t / 2;
             
-            for (let j = 0; j < rows - 1; j++) {
+            for (let j = 0; j < rows; j++) {
                 let row = rowMesh.clone();
                 row.position.z = (j + 1) * (z / rows) - t / 2;
-                group.add(row); 
+
+                if (j + 1 !== rows)
+                    group.add(row);
+
+                camPositions[i][rows - j - 1] = new THREE.Vector3(0, 0, -20).add(row.position);
             }
         }
 
+        this.camPositions = camPositions;
         return group;
     }
 }

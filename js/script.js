@@ -1,5 +1,5 @@
 
-let container, scene, camera, renderer, controls, stats;
+let container, scene, camera, renderer, controls, stats, movement;
 const DEFAULTS = getSavedDefaults();
 
 init();
@@ -68,6 +68,7 @@ function init() {
     scene.add(skyBox);
 
     let bookcase = new Bookcase(600, 1000, 2000, 8, 5);
+    movement = new CameraMovement(camera, controls, bookcase.camPositions); 
     scene.add(bookcase.geometry);
 }
 
@@ -326,4 +327,8 @@ function setMaxPolarAngle(angle) {
 function setAzimuthAngles(angle) {
     controls.minAzimuthAngle = Math.PI / 2 - ((angle / 2) * THREE.Math.DEG2RAD);
     controls.maxAzimuthAngle = Math.PI / 2 + ((angle / 2) * THREE.Math.DEG2RAD);
+}
+
+function moveToPos(x, y) {
+    movement.moveToPos(x, y);
 }
