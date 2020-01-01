@@ -48,9 +48,10 @@ function init() {
     var axesHelper = new THREE.AxesHelper(1000);
     scene.add(axesHelper);
 
+    let ambient = new THREE.AmbientLight(0x636363);
     let light = new THREE.PointLight(0xffffff);
     light.position.set(10000, 10000, 25000);
-    scene.add(light);
+    scene.add(ambient, light);
 
     let floorTexture = new THREE.ImageUtils.loadTexture('/vendors/images/checkerboard.png');
     floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;

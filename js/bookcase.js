@@ -11,11 +11,11 @@ class Bookcase {
 
     createGeometry() {
         let {x, y, z, rows, cols} = this;
-        let t = 18;
+        let t = 18, mainColor = 0x007bff, accentColor = 0xffc107;
         let geometry;
 
         let group = new THREE.Group();
-        let material = new THREE.MeshLambertMaterial({ color: 0xff0000 });
+        let material = new THREE.MeshLambertMaterial({ color: mainColor });
 
         //bottom
         geometry = new THREE.CubeGeometry(x, y, t);
@@ -42,11 +42,11 @@ class Bookcase {
 
         //cols and rows
         let colMesh = left.clone();
-        colMesh.material = new THREE.MeshLambertMaterial({color: 0xffff00});
+        colMesh.material = new THREE.MeshLambertMaterial({color: accentColor});
 
         let rowGeoY = (y - (2 * t) - (cols - 1) * t) / cols; 
         geometry = new THREE.CubeGeometry(x, rowGeoY, 18);
-        let rowMaterial = new THREE.MeshLambertMaterial({color: 0xffff00});
+        let rowMaterial = new THREE.MeshLambertMaterial({color: accentColor});
         let rowMesh = new THREE.Mesh(geometry, rowMaterial);
 
         for (let i = 0; i < cols; i++) {
