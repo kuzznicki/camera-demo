@@ -313,3 +313,16 @@ function enablePan() {
 function disablePan() {
     controls.enablePan = false;
 }
+
+function setMinPolarAngle(angle) {
+    controls.minPolarAngle = angle * THREE.Math.DEG2RAD;
+}
+
+function setMaxPolarAngle(angle) {
+    controls.maxPolarAngle = angle * THREE.Math.DEG2RAD;
+}
+
+function setAzimuthAngles(angle) {
+    controls.minAzimuthAngle = Math.PI / 2 - ((angle / 2) * THREE.Math.DEG2RAD);
+    controls.maxAzimuthAngle = Math.PI / 2 + ((angle / 2) * THREE.Math.DEG2RAD);
+}

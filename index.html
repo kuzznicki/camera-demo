@@ -35,7 +35,7 @@
           </div>
         </div>
 
-        <div class="row">
+        <div class="row mt-2">
           <div class="col">
             Camera pan
             <br>
@@ -58,35 +58,135 @@
             </div>
           </div>
         </div>
-        
+
+        <div class="row mt-2">
+          <div class="col">
+            Camera distance
+            <div class="input-group input-group-sm mb-1">
+              <div class="input-group-prepend">
+                <span class="input-group-text">min</span>
+              </div>
+              <input type="text" id="dist-min" class="form-control">
+              <input type="text" id="dist-max" class="form-control">
+              <div class="input-group-append">
+                <span class="input-group-text">max</span>
+              </div>
+            </div>
+    
+            <input 
+              type="button" 
+              class="btn btn-primary btn-sm" 
+              onclick="saveMinMaxCamDist()" 
+              value="Save distance">
+          </div>
+        </div>
       </div>
 
-      <!-- column 1 -->
+      <!-- column 2 -->
       <div class="col">
-        Camera distance
-        <div class="input-group input-group-sm mb-1">
-          <div class="input-group-prepend">
-            <span class="input-group-text">min</span>
+        <div class="row">
+          <div class="col">
+            Camera polar angle
+            <br>
+            min:
+            <div class="form-check form-check-inline">
+              <input 
+                class="form-check-input" 
+                type="radio" 
+                name="minPolarAngle" 
+                onclick="setMinPolarAngle(0)" 
+                checked>
+              <label class="form-check-label">0&deg;</label>
+            </div>
+
+            <div class="form-check form-check-inline">
+              <input 
+                class="form-check-input" 
+                type="radio" 
+                name="minPolarAngle" 
+                onclick="setMinPolarAngle(20)">
+              <label class="form-check-label">20&deg;</label>
+            </div>
+
+            <div class="form-check form-check-inline">
+              <input 
+                class="form-check-input" 
+                type="radio" 
+                name="minPolarAngle" 
+                onclick="setMinPolarAngle(45)">
+              <label class="form-check-label">45&deg;</label>
+            </div>
+
+            <br>
+            max:
+            <div class="form-check form-check-inline">
+              <input 
+                class="form-check-input" 
+                type="radio" 
+                name="maxPolarAngle" 
+                onclick="setMaxPolarAngle(45)"
+                checked>
+              <label class="form-check-label">45&deg;</label>
+            </div>
+
+            <div class="form-check form-check-inline">
+              <input 
+                class="form-check-input" 
+                type="radio" 
+                name="maxPolarAngle" 
+                onclick="setMaxPolarAngle(90)">
+              <label class="form-check-label">90&deg;</label>
+            </div>
+
+            <div class="form-check form-check-inline">
+              <input 
+                class="form-check-input" 
+                type="radio" 
+                name="maxPolarAngle" 
+                onclick="setMaxPolarAngle(180)" 
+                checked>
+              <label class="form-check-label">180&deg;</label>
+            </div>
           </div>
-          <input type="text" id="dist-min" class="form-control">
         </div>
 
-        <div class="input-group input-group-sm mb-1">
-          <div class="input-group-prepend">
-            <span class="input-group-text">max</span>
-          </div>
-          <input type="text" id="dist-max" class="form-control">
-        </div>
+        <div class="row mt-2">
+          <div class="col">
+            Camera azimuth angles
+            <br>
+            <div class="form-check form-check-inline">
+              <input 
+                class="form-check-input" 
+                type="radio" 
+                name="azimuthAngle" 
+                onclick="setAzimuthAngles(90)">
+              <label class="form-check-label">90&deg;</label>
+            </div>
 
-        <input 
-          type="button" 
-          class="btn btn-primary btn-sm" 
-          onclick="saveMinMaxCamDist()" 
-          value="Save distance">
+            <div class="form-check form-check-inline">
+              <input 
+                class="form-check-input" 
+                type="radio" 
+                name="azimuthAngle" 
+                onclick="setAzimuthAngles(180)">
+              <label class="form-check-label">180&deg;</label>
+            </div>
+
+            <div class="form-check form-check-inline">
+              <input 
+                class="form-check-input" 
+                type="radio" 
+                name="azimuthAngle" 
+                onclick="setAzimuthAngles(Infinity)"
+                checked>
+              <label class="form-check-label">360&deg;</label>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- column 3 -->
-      <div class="col-5">
+      <div class="col">
         Camera target boundaries
         <div class="input-group input-group-sm mb-1">
           <div class="input-group-prepend">
@@ -126,19 +226,19 @@
 
         <input 
           type="button" 
-          class="btn btn-primary btn-sm" 
+          class="btn btn-primary btn-sm mb-1" 
           onclick="saveCamBounds()" 
-          value="Save boundaries">
+          value="Save">
 
         <input 
           type="button" 
           class="btn btn-warning btn-sm mb-1" 
           onclick="deleteCamBounds()" 
-          value="Delete boundaries">
+          value="Delete">
 
         <input 
           type="button" 
-          class="btn btn-primary btn-sm" 
+          class="btn btn-primary btn-sm mb-1" 
           onclick="toggleCamBoundsVisibility()" 
           value="Show / Hide">
       </div>
