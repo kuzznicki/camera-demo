@@ -17,9 +17,9 @@
     <div class="row">
 
       <!-- column 1 -->
-      <div class="col">
+      <div class="col mx-1">
         <div class="row">
-          <div class="col">
+          <div class="col border rounded">
             Current camera
             <br>
             <input 
@@ -36,7 +36,7 @@
         </div>
 
         <div class="row mt-2">
-          <div class="col">
+          <div class="col border rounded">
             Camera pan
             <br>
             <div class="form-check form-check-inline">
@@ -60,7 +60,7 @@
         </div>
 
         <div class="row mt-2">
-          <div class="col">
+          <div class="col border rounded">
             Camera distance
             <div class="input-group input-group-sm mb-1">
               <div class="input-group-prepend">
@@ -75,17 +75,17 @@
     
             <input 
               type="button" 
-              class="btn btn-primary btn-sm" 
+              class="btn btn-primary btn-sm mb-1" 
               onclick="saveMinMaxCamDist()" 
-              value="Save distance">
+              value="Save">
           </div>
         </div>
       </div>
 
       <!-- column 2 -->
-      <div class="col">
+      <div class="col mx-1">
         <div class="row">
-          <div class="col">
+          <div class="col border rounded">
             Camera polar angle
             <br>
             min:
@@ -151,7 +151,7 @@
         </div>
 
         <div class="row mt-2">
-          <div class="col">
+          <div class="col border rounded">
             Camera azimuth angles
             <br>
             <div class="form-check form-check-inline">
@@ -183,64 +183,82 @@
             </div>
           </div>
         </div>
+
+        <div class="row mt-2">
+          <div class="col border rounded">
+            Positions
+            <br>
+            <button type="button" class="btn btn-primary btn-sm mb-1" onclick="moveToPos(1, 1)">1.1</button>
+            <button type="button" class="btn btn-primary btn-sm mb-1" onclick="moveToPos(1, 5)">1.5</button>
+            <button type="button" class="btn btn-primary btn-sm mb-1" onclick="moveToPos(8, 1)">8.1</button>
+            <button type="button" class="btn btn-primary btn-sm mb-1" onclick="moveToPos(8, 5)">8.5</button>
+            <button type="button" class="btn btn-primary btn-sm mb-1" onclick="moveToPos(-1)">back</button>
+            <button type="button" class="btn btn-primary btn-sm mb-1" onclick="moveToPos(-2)">around</button>
+          </div>
+        </div>
       </div>
 
       <!-- column 3 -->
-      <div class="col">
-        Camera target boundaries
-        <div class="input-group input-group-sm mb-1">
-          <div class="input-group-prepend">
-            <span class="input-group-text">x</span>
-            <span class="input-group-text">min</span>
-          </div>
-          <input type="text" id="camtar-x-min" class="form-control">
-          <input type="text" id="camtar-x-max" class="form-control">
-          <div class="input-group-append">
-            <span class="input-group-text">max</span>
+      <div class="col mx-1">
+
+        <div class="row">
+          <div class="col border rounded">
+            Camera target boundaries
+            <div class="input-group input-group-sm mb-1">
+              <div class="input-group-prepend">
+                <span class="input-group-text">x</span>
+                <span class="input-group-text">min</span>
+              </div>
+              <input type="text" id="camtar-x-min" class="form-control">
+              <input type="text" id="camtar-x-max" class="form-control">
+              <div class="input-group-append">
+                <span class="input-group-text">max</span>
+              </div>
+            </div>
+
+            <div class="input-group input-group-sm mb-1">
+              <div class="input-group-prepend">
+                <span class="input-group-text">y</span>
+                <span class="input-group-text">min</span>
+              </div>
+              <input type="text" id="camtar-y-min" class="form-control">
+              <input type="text" id="camtar-y-max" class="form-control">
+              <div class="input-group-append">
+                <span class="input-group-text">max</span>
+              </div>
+            </div>
+
+            <div class="input-group input-group-sm mb-1">
+              <div class="input-group-prepend">
+                <span class="input-group-text">z</span>
+                <span class="input-group-text">min</span>
+              </div>
+              <input type="text" id="camtar-z-min" class="form-control">
+              <input type="text" id="camtar-z-max" class="form-control">
+              <div class="input-group-append">
+                <span class="input-group-text">max</span>
+              </div>
+            </div>
+
+            <input 
+              type="button" 
+              class="btn btn-primary btn-sm mb-1" 
+              onclick="saveCamBounds()" 
+              value="Save">
+
+            <input 
+              type="button" 
+              class="btn btn-warning btn-sm mb-1" 
+              onclick="deleteCamBounds()" 
+              value="Delete">
+
+            <input 
+              type="button" 
+              class="btn btn-primary btn-sm mb-1" 
+              onclick="toggleCamBoundsVisibility()" 
+              value="Show / Hide">
           </div>
         </div>
-
-        <div class="input-group input-group-sm mb-1">
-          <div class="input-group-prepend">
-            <span class="input-group-text">y</span>
-            <span class="input-group-text">min</span>
-          </div>
-          <input type="text" id="camtar-y-min" class="form-control">
-          <input type="text" id="camtar-y-max" class="form-control">
-          <div class="input-group-append">
-            <span class="input-group-text">max</span>
-          </div>
-        </div>
-
-        <div class="input-group input-group-sm mb-1">
-          <div class="input-group-prepend">
-            <span class="input-group-text">z</span>
-            <span class="input-group-text">min</span>
-          </div>
-          <input type="text" id="camtar-z-min" class="form-control">
-          <input type="text" id="camtar-z-max" class="form-control">
-          <div class="input-group-append">
-            <span class="input-group-text">max</span>
-          </div>
-        </div>
-
-        <input 
-          type="button" 
-          class="btn btn-primary btn-sm mb-1" 
-          onclick="saveCamBounds()" 
-          value="Save">
-
-        <input 
-          type="button" 
-          class="btn btn-warning btn-sm mb-1" 
-          onclick="deleteCamBounds()" 
-          value="Delete">
-
-        <input 
-          type="button" 
-          class="btn btn-primary btn-sm mb-1" 
-          onclick="toggleCamBoundsVisibility()" 
-          value="Show / Hide">
       </div>
     </div>
   </div>
@@ -251,10 +269,12 @@
   <script src="/vendors/js/popper.min.js"></script>
   <script src="/vendors/js/bootstrap.min.js"></script>
   <script src="/vendors/js/three.js"></script>
+  <script src="/vendors/js/Tween.js"></script>
   <script src="/vendors/js/Stats.js"></script>
   <script src="/vendors/js/CustomOrbitControls.js"></script>
   <script src="/vendors/js/THREEx.WindowResize.js"></script>
   <script src="/js/bookcase.js"></script>
+  <script src="/js/camera_movement.js"></script>
   <script src="/js/script.js"></script>
   <!-- <script src="js/KeyboardState.js"></script> -->
   <!-- <script src="js/THREEx.FullScreen.js"></script> -->

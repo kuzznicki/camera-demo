@@ -1,7 +1,7 @@
 
 let container, scene, camera, renderer, controls, stats, movement;
 const DEFAULTS = getSavedDefaults();
-
+let cone;
 init();
 animate();
 
@@ -67,21 +67,44 @@ function init() {
     let skyBox = new THREE.Mesh(skyBoxGeometry, skyBoxMaterial);
     scene.add(skyBox);
 
+    // camera cone
+    var geometry = new THREE.ConeGeometry(50, 200, 32);
+    geometry.rotateX(Math.PI / 2);
+    var material = new THREE.MeshLambertMaterial({ color: 0x00c900});
+    cone = new THREE.Mesh(geometry, material);
+    cone.rotateY(-Math.PI/2);
+    scene.add(cone);
+    var axesHelper = new THREE.AxesHelper(250);
+    cone.add(axesHelper);
+
+    let orbitRadius = 2500;
     let bookcase = new Bookcase(600, 1000, 2000, 8, 5);
-    movement = new CameraMovement(camera, controls, bookcase.camPositions); 
+    // movement = new CameraMovement(cone, controls, CAM_POS, bookcase.camPositions); 
+    movement = new CameraMovement(camera, controls, orbitRadius, CAM_POS, bookcase.camPositions); 
     scene.add(bookcase.geometry);
+
+    // orbit cylinder
+    var geometry = new THREE.CylinderGeometry(orbitRadius, orbitRadius, 2000, 32);
+    var material = new THREE.MeshBasicMaterial({
+        color: 0xff0000,
+        transparent: true,
+        opacity: 0.1,
+        wireframe: true
+    });
+    var orbit = new THREE.Mesh(geometry, material);
+    orbit.rotateX(-Math.PI/2);
+    orbit.position.z = 1250;
+    scene.add(orbit);
 }
 
 function animate() {
     stats.begin();
     requestAnimationFrame(animate);
-    render();
+    renderer.render(scene, camera);
+    TWEEN.update();
     stats.end();
 }
 
-function render() {
-    renderer.render(scene, camera);
-}
 
 function getSavedDefaults() {
     const keys = [
@@ -330,5 +353,10 @@ function setAzimuthAngles(angle) {
 }
 
 function moveToPos(x, y) {
-    movement.moveToPos(x, y);
+    if (x === -1)
+        movement.moveBackToOrbit();
+    else if (x === -2)
+        movement.rotateAroundOrbit();
+    else
+        movement.moveToPos(x, y);
 }
