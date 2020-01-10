@@ -188,12 +188,11 @@
           <div class="col border rounded">
             Positions
             <br>
-            <button type="button" class="btn btn-primary btn-sm mb-1" onclick="moveToPos(1, 1)">1.1</button>
-            <button type="button" class="btn btn-primary btn-sm mb-1" onclick="moveToPos(1, 5)">1.5</button>
-            <button type="button" class="btn btn-primary btn-sm mb-1" onclick="moveToPos(8, 1)">8.1</button>
-            <button type="button" class="btn btn-primary btn-sm mb-1" onclick="moveToPos(8, 5)">8.5</button>
-            <button type="button" class="btn btn-primary btn-sm mb-1" onclick="moveToPos(-1)">back</button>
-            <button type="button" class="btn btn-primary btn-sm mb-1" onclick="moveToPos(-2)">around</button>
+            <button type="button" class="btn btn-primary btn-sm mb-1" onclick="moveToPos(1, 1)">top left</button>
+            <button type="button" class="btn btn-primary btn-sm mb-1" onclick="moveToPos(1, 5)">top right</button>
+            <br>
+            <button type="button" class="btn btn-primary btn-sm mb-1" onclick="moveToPos(8, 1)">bottom left</button>
+            <button type="button" class="btn btn-primary btn-sm mb-1" onclick="moveToPos(8, 5)">bottom right</button>
           </div>
         </div>
       </div>
@@ -252,10 +251,22 @@
               onclick="deleteCamBounds()" 
               value="Delete">
 
-            <input 
+            <!-- <input 
               type="button" 
               class="btn btn-primary btn-sm mb-1" 
               onclick="toggleCamBoundsVisibility()" 
+              value="Show / Hide"> -->
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col border rounded">
+            Helpers
+            <br>
+            <input 
+              type="button" 
+              class="btn btn-primary btn-sm mb-1" 
+              onclick="toggleHelpersVisibility()" 
               value="Show / Hide">
           </div>
         </div>
@@ -275,6 +286,8 @@
   <script src="/vendors/js/THREEx.WindowResize.js"></script>
   <script src="/js/bookcase.js"></script>
   <script src="/js/camera_movement.js"></script>
+  <script src="/js/camera_path.js"></script>
+  <script src="/js/camera_orbit.js"></script>
   <script src="/js/script.js"></script>
   <!-- <script src="js/KeyboardState.js"></script> -->
   <!-- <script src="js/THREEx.FullScreen.js"></script> -->

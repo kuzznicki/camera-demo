@@ -1,7 +1,7 @@
 
 let container, scene, camera, renderer, controls, stats, movement;
 const DEFAULTS = getSavedDefaults();
-let cone;
+let cone, axesHelpers, camHelpers;
 init();
 animate();
 
@@ -22,6 +22,9 @@ function init() {
     camera.up.set(0, 0, 1);
     camera.position.copy(CAM_POS);
     scene.add(camera);
+
+    camHelpers = new THREE.Group();
+    scene.add(camHelpers)
 
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(WIDTH, HEIGHT);
@@ -45,7 +48,7 @@ function init() {
     container.appendChild(stats.dom);
 
     //add objects to scene
-    var axesHelper = new THREE.AxesHelper(1000);
+    axesHelper = new THREE.AxesHelper(1000);
     scene.add(axesHelper);
 
     let ambient = new THREE.AmbientLight(0x636363);
@@ -67,34 +70,23 @@ function init() {
     let skyBox = new THREE.Mesh(skyBoxGeometry, skyBoxMaterial);
     scene.add(skyBox);
 
-    // camera cone
-    var geometry = new THREE.ConeGeometry(50, 200, 32);
-    geometry.rotateX(Math.PI / 2);
-    var material = new THREE.MeshLambertMaterial({ color: 0x00c900});
-    cone = new THREE.Mesh(geometry, material);
-    cone.rotateY(-Math.PI/2);
-    scene.add(cone);
-    var axesHelper = new THREE.AxesHelper(250);
-    cone.add(axesHelper);
+    let orbit = new CameraOrbit(camera, 2500);
+    camHelpers.add(orbit.getOrbitHelper());
 
-    let orbitRadius = 2500;
     let bookcase = new Bookcase(600, 1000, 2000, 8, 5);
-    // movement = new CameraMovement(cone, controls, CAM_POS, bookcase.camPositions); 
-    movement = new CameraMovement(camera, controls, orbitRadius, CAM_POS, bookcase.camPositions); 
     scene.add(bookcase.geometry);
 
-    // orbit cylinder
-    var geometry = new THREE.CylinderGeometry(orbitRadius, orbitRadius, 2000, 32);
-    var material = new THREE.MeshBasicMaterial({
-        color: 0xff0000,
-        transparent: true,
-        opacity: 0.1,
-        wireframe: true
-    });
-    var orbit = new THREE.Mesh(geometry, material);
-    orbit.rotateX(-Math.PI/2);
-    orbit.position.z = 1250;
-    scene.add(orbit);
+    // camera cone
+    // var geometry = new THREE.ConeGeometry(50, 200, 32);
+    // geometry.rotateX(Math.PI / 2);
+    // var material = new THREE.MeshLambertMaterial({ color: 0x00c900});
+    // cone = new THREE.Mesh(geometry, material);
+    // cone.rotateY(-Math.PI/2);
+    // scene.add(cone);
+    // var axesHelper = new THREE.AxesHelper(250);
+    // cone.add(axesHelper);
+    // movement = new CameraMovement(cone, controls, orbit, CAM_POS, bookcase.camPositions);
+    movement = new CameraMovement(camera, controls, orbit, bookcase.camPositions); 
 }
 
 function animate() {
@@ -331,6 +323,12 @@ function toggleCamBoundsVisibility() {
     if (cube) cube.visible = !cube.visible;
 }
 
+function toggleHelpersVisibility() {
+    toggleCamBoundsVisibility();
+    camHelpers.visible = !camHelpers.visible;
+    axesHelpers.visible = !axesHelpers.visible;
+}
+
 function enablePan() {
     controls.enablePan = true;
 }
@@ -353,10 +351,5 @@ function setAzimuthAngles(angle) {
 }
 
 function moveToPos(x, y) {
-    if (x === -1)
-        movement.moveBackToOrbit();
-    else if (x === -2)
-        movement.rotateAroundOrbit();
-    else
-        movement.moveToPos(x, y);
+    movement.moveToPos(x, y);
 }
