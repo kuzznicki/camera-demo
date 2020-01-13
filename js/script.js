@@ -1,7 +1,7 @@
 
 let container, scene, camera, renderer, controls, stats, movement;
 const DEFAULTS = getSavedDefaults();
-let cone, axesHelpers, camHelpers;
+let cone, axesHelper, camHelpers, posEditor;
 init();
 animate();
 
@@ -37,6 +37,7 @@ function init() {
     });
 
     controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableKeys = false;
     camera.lookAt(CAM_TARGET);
     controls.target.copy(CAM_TARGET);
     setMinMaxDistance(controls, DEFAULTS);
@@ -86,7 +87,10 @@ function init() {
     // var axesHelper = new THREE.AxesHelper(250);
     // cone.add(axesHelper);
     // movement = new CameraMovement(cone, controls, orbit, CAM_POS, bookcase.camPositions);
-    movement = new CameraMovement(camera, controls, orbit, bookcase.camPositions); 
+    movement = new CameraMovement(camera, controls, orbit, bookcase.camPositions);
+
+    let editorDom = document.querySelector('#editor');
+    posEditor = new PositionsEditor(editorDom);
 }
 
 function animate() {
@@ -326,7 +330,7 @@ function toggleCamBoundsVisibility() {
 function toggleHelpersVisibility() {
     toggleCamBoundsVisibility();
     camHelpers.visible = !camHelpers.visible;
-    axesHelpers.visible = !axesHelpers.visible;
+    axesHelper.visible = !axesHelper.visible;
 }
 
 function enablePan() {
@@ -352,4 +356,45 @@ function setAzimuthAngles(angle) {
 
 function moveToPos(x, y) {
     movement.moveToPos(x, y);
+}
+
+function goToEditorElement(index = null) {
+    if (index === null)
+        index = posEditor.currentElementIndex;
+        
+    let element = posEditor.elements[index];
+    movement.moveToElement(element);
+}
+
+function prevEditorElement() {
+    posEditor.previousElement();
+}
+
+function nextEditorElement() {
+    posEditor.nextElement();
+}
+
+function addEditorElement() {
+    posEditor.addElement();
+}
+
+function removeEditorElement() {
+    posEditor.removeCurrentElement();
+}
+
+function updateEditorElement() {
+    let px = +document.querySelector('.editor-position-x').value;
+    let py = +document.querySelector('.editor-position-y').value;
+    let pz = +document.querySelector('.editor-position-z').value;
+    let tx = +document.querySelector('.editor-target-x').value;
+    let ty = +document.querySelector('.editor-target-y').value;
+    let tz = +document.querySelector('.editor-target-z').value;
+    
+    let pos = new THREE.Vector3(px, py, pz);
+    let target = new THREE.Vector3(tx, ty, tz);
+    posEditor.updateCurrentElement(pos, target);
+}
+
+function saveEditorElements() {
+    posEditor.saveElementsToLocalStorage();
 }

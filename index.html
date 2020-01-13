@@ -259,7 +259,7 @@
           </div>
         </div>
 
-        <div class="row">
+        <div class="row mt-2">
           <div class="col border rounded">
             Helpers
             <br>
@@ -274,7 +274,59 @@
     </div>
   </div>
 
-  <div id="player"></div>
+  <div id="player">
+    <div id="editor">
+      <div class="row m-0">
+        <div class="col-10">
+          <h3 class="editor-title">Positions editor</h3>
+        </div>
+
+        <div class="col-2 p-0">
+          <button type="button" class="btn btn-danger btn-sm mt-1 mr-1" onclick="saveEditorElements()">save</button>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col editor-content">
+          <b>Element</b>
+          <div class="row editor-element justify-content-center">
+            <div class="col-1"><button type="button" class="btn btn-primary btn-sm mb-1 editor-element-go" onclick="goToEditorElement()">GO</button></div>
+
+            <div class="col-2"></div>
+
+            <div class="col-1"><button type="button" class="btn btn-primary btn-sm mb-1 editor-element-l" onclick="prevEditorElement()">&lt;</button></div>
+            <div class="col-2"><span class="editor-element-number">-</span></div>
+            <div class="col-1"><button type="button" class="btn btn-primary btn-sm mb-1 editor-element-r" onclick="nextEditorElement()">&gt;</button></div>
+            
+            <div class="col-1"></div>
+
+            <div class="col-1"><button type="button" class="btn btn-success btn-sm mb-1 editor-element-add" onclick="addEditorElement()">+</button></div>
+            <div class="col-1"><button type="button" class="btn btn-danger btn-sm mb-1 editor-element-remove" onclick="removeEditorElement()">X</button></div>
+          </div>
+
+          <b>Position</b>
+          <div class="row editor-target">
+            <div class="col">x: <input type="number" class="editor-position-x" step="50" onchange="updateEditorElement()"></div>
+            <div class="col">y: <input type="number" class="editor-position-y" step="50" onchange="updateEditorElement()"></div>
+            <div class="col">z: <input type="number" class="editor-position-z" step="50" onchange="updateEditorElement()"></div>
+          </div>
+
+          <b>Target</b>
+          <div class="row editor-target">
+            <div class="col">x: <input type="number" class="editor-target-x" step="50" onchange="updateEditorElement()"></div>
+            <div class="col">y: <input type="number" class="editor-target-y" step="50" onchange="updateEditorElement()"></div>
+            <div class="col">z: <input type="number" class="editor-target-z" step="50" onchange="updateEditorElement()"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row editor-positions-menu">
+        <div class="col">
+            
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="/vendors/js/jquery-3.4.1.slim.min.js"></script>
   <script src="/vendors/js/popper.min.js"></script>
@@ -284,10 +336,11 @@
   <script src="/vendors/js/Stats.js"></script>
   <script src="/vendors/js/CustomOrbitControls.js"></script>
   <script src="/vendors/js/THREEx.WindowResize.js"></script>
-  <script src="/js/bookcase.js"></script>
-  <script src="/js/camera_movement.js"></script>
-  <script src="/js/camera_path.js"></script>
-  <script src="/js/camera_orbit.js"></script>
+  <script src="/js/Bookcase.js"></script>
+  <script src="/js/CameraMovement.js"></script>
+  <script src="/js/CameraPath.js"></script>
+  <script src="/js/CameraOrbit.js"></script>
+  <script src="/js/PositionsEditor.js"></script>
   <script src="/js/script.js"></script>
   <!-- <script src="js/KeyboardState.js"></script> -->
   <!-- <script src="js/THREEx.FullScreen.js"></script> -->

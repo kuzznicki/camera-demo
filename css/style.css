@@ -18,3 +18,49 @@ body {
     width: 100%;
     text-align: center;
 }
+
+#editor {
+    width: 300px; 
+    height: 205px; 
+    background: #ffc80091; 
+    position: absolute;
+    bottom: 25px; 
+    right: 25px;
+    text-align: left;
+}
+
+/* .editor-title {
+    margin: 5px 0 0 5px;
+} */
+
+.editor-content {
+    text-align: center;
+}
+
+.editor-element > .col-1,
+.editor-element > .col-2 {
+    padding: 0;
+    margin: 0;
+}
+
+.editor-element-go,
+.editor-element-l,
+.editor-element-r,
+.editor-element-remove,
+.editor-positions-menu {
+    display: none;
+}
+
+.editor-position-x,
+.editor-position-y,
+.editor-position-z,
+.editor-target-x,
+.editor-target-y,
+.editor-target-z {
+    width: 60px;
+}
+
+.editor-positions-menu {
+    padding: 10px;
+    margin: 0;
+}
