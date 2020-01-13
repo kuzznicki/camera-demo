@@ -6,7 +6,6 @@ class Bookcase {
         this.z = z;
         this.rows = rows;
         this.cols = cols;
-        this.camPositions = []; //assigned in geometry creation
         this.geometry = this.createGeometry();
     }
 
@@ -67,12 +66,9 @@ class Bookcase {
 
                 if (j + 1 !== rows)
                     group.add(row);
-
-                camPositions[i][rows - j - 1] = new THREE.Vector3(0, 0, -20).add(row.position);
             }
         }
 
-        this.camPositions = camPositions;
         return group;
     }
 }

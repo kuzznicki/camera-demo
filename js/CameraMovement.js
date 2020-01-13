@@ -6,10 +6,10 @@ class CameraMovement {
         this.CAMERA_POSITIONS = camPositions;
     }
     
-    moveOnCurve(curve) {
+    moveOnCurve(curve, target) {
         let controls = this.controls;
         let cam = this.camera;
-        let endTarget = curve.getPointAt(1).add(new THREE.Vector3(-200, 0, 0));
+        let endTarget = target;
 
         let current = { 
             pos: 0, 
@@ -42,9 +42,9 @@ class CameraMovement {
             .start();
     }
 
-    moveToPos(x, y) {
+    moveToElement(editorElement) {
         let currentPoint = this.camera.position.clone();
-        let endPoint = this.CAMERA_POSITIONS[y - 1][x - 1].clone().add(new THREE.Vector3(500, 0, 0));
+        let endPoint = editorElement.position;
         let orbitPoints = this.orbit.getPointsOnOrbitBetweenTwoPoints(currentPoint, endPoint);
 
         let path = new CameraPath([
@@ -53,6 +53,7 @@ class CameraMovement {
             endPoint
         ]);
 
-        this.moveOnCurve(path.curve);
+        let target = editorElement.target;
+        this.moveOnCurve(path.curve, target);
     }
 }

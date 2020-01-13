@@ -33,7 +33,7 @@ class CameraOrbit {
         const angleSteps = this.getAngleSteps(startAngle, endAngle);
 
         if (this.checkIfCameraInsideOrbit()) {
-            orbitPoints.push(this.getPointFromAngle(startAngle, p1.z, 0.7));
+            orbitPoints.push(this.getPointFromAngle(startAngle, p1.z, 0.9));
 
             for (let i = 1; i < angleSteps.length - 1; i++) {
                 let alfa = angleSteps[i];
@@ -43,12 +43,12 @@ class CameraOrbit {
             }
         }
 
-        orbitPoints.push(this.getPointFromAngle(endAngle, p2.z, 0.7));
+        orbitPoints.push(this.getPointFromAngle(endAngle, p2.z, 0.9));
         return orbitPoints;
     }
 
     checkIfCameraInsideOrbit() {
-        return this.camera.position.distanceTo(new THREE.Vector3(0, 0, 0)) <= this.radius;
+        return this.camera.position.distanceTo(new THREE.Vector3(0, 0, this.camera.position.z)) <= this.radius;
     }
 
     getPointToMoveBack(point) {
@@ -64,11 +64,8 @@ class CameraOrbit {
     getAngleSteps(startAngle, endAngle) {
         let angleSteps = [];
         let approximatedStep = 30 * THREE.Math.DEG2RAD;
-        let stepsNumber = 1 + ((startAngle - endAngle) / approximatedStep) >> 0;
-        let step = (startAngle - endAngle) / stepsNumber;
-
-        if (startAngle > endAngle)
-            step *= -1;
+        let stepsNumber = 1 + Math.abs((startAngle - endAngle) / approximatedStep) >> 0;
+        let step = (endAngle - startAngle) / stepsNumber;
 
         for (let i = 0; i < stepsNumber + 1; i++) {
             angleSteps.push(startAngle + i * step);
