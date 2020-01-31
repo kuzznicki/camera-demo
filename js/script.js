@@ -354,10 +354,6 @@ function setAzimuthAngles(angle) {
     controls.maxAzimuthAngle = Math.PI / 2 + ((angle / 2) * THREE.Math.DEG2RAD);
 }
 
-function moveToPos(x, y) {
-    movement.moveToPos(x, y);
-}
-
 function goToEditorElement(index = null) {
     if (index === null)
         index = posEditor.currentElementIndex;
