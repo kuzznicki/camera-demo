@@ -57,7 +57,7 @@ function init() {
     light.position.set(10000, 10000, 25000);
     scene.add(ambient, light);
 
-    let floorTexture = new THREE.ImageUtils.loadTexture('/vendors/images/checkerboard.png');
+    let floorTexture = new THREE.ImageUtils.loadTexture('./vendors/images/checkerboard.png');
     floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;
     floorTexture.repeat.set(5, 5);
     let floorMaterial = new THREE.MeshBasicMaterial({ map: floorTexture, side: THREE.DoubleSide });
