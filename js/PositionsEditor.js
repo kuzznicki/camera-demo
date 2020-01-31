@@ -11,10 +11,12 @@ class PositionsEditor {
         this.currentElementIndex = this.elements.length > 0 ? 0 : null;
         this.update();
 
-        this.modes = ['HIDDEN', 'POSITIONS', 'EDITOR'];
-        this.mode = 2;
+        this.modes = ['POSITIONS', 'EDITOR']; //['HIDDEN', 'POSITIONS', 'EDITOR'];
+        this.mode = -1;
+        this.changeEditorMode();
 
         document.addEventListener('keypress', this.handleKeypress.bind(this));
+        dom.querySelector('.editor-title').addEventListener('click', this.handleMouseClick.bind(this));
     }
 
     saveElementsToLocalStorage() {
@@ -180,14 +182,17 @@ class PositionsEditor {
             this.changeEditorMode();
     }
 
+    handleMouseClick(e) {
+        this.changeEditorMode();
+    }
+
     changeEditorMode() {
         this.mode = (this.mode + 1) % this.modes.length;
         let currentMode = this.modes[this.mode];
         
-        switch(currentMode) {
+        switch (currentMode) {
             case 'HIDDEN': 
                 this.editorDom.style.display = 'none';
-               
                 break;
 
             case 'POSITIONS': 

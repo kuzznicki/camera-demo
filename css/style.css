@@ -21,7 +21,7 @@ body {
 
 #editor {
     width: 300px; 
-    height: 205px; 
+    height: 225px; 
     background: #ffc80091; 
     position: absolute;
     bottom: 25px; 
@@ -29,9 +29,19 @@ body {
     text-align: left;
 }
 
-/* .editor-title {
-    margin: 5px 0 0 5px;
-} */
+.editor-title > h3 {
+    margin: 0;
+}
+
+.editor-title:hover{
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.editor-desc {
+    display: block;
+    font-size: 0.75em;
+}
 
 .editor-content {
     text-align: center;
